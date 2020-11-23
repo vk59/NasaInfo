@@ -1,4 +1,4 @@
-package com.vk59.nasainfo
+package com.vk59.nasainfo.API
 
 
 class ApiConfig {

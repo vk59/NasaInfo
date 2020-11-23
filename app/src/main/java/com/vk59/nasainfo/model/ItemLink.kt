@@ -10,5 +10,9 @@ data class ItemLink(
 
     @SerializedName("render")
     @Expose
-    var type: String
+    var type: String,
+
+    @SerializedName("rel")
+    @Expose
+    var rel: String
 )

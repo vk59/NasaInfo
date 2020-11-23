@@ -1,6 +1,20 @@
 package com.vk59.nasainfo.model
 
-data class NavigationLink (
-    var link: String? = null,
-    var position: String? = null
+import com.google.gson.annotations.Expose
+
+import com.google.gson.annotations.SerializedName
+
+
+data class NavigationLink(
+        @SerializedName("prompt")
+        @Expose
+        val prompt: String,
+
+        @SerializedName("href")
+        @Expose
+        val href: String,
+
+        @SerializedName("rel")
+        @Expose
+        val rel: String
 )

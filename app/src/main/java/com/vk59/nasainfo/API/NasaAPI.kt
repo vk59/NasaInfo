@@ -4,8 +4,8 @@ import com.vk59.nasainfo.model.ResponseData
 import retrofit2.Call
 import retrofit2.http.GET
 
-interface NasaApi {
+interface NasaAPI {
     // perhaps Response isn't suitable
     @GET("search?q=apollo%2011...")
-    fun getApolloInfo(): Call<ResponseData?>?
+    fun getApolloInfo(): Call<ResponseData?>
 }

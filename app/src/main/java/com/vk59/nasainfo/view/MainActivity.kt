@@ -1,38 +1,70 @@
 package com.vk59.nasainfo.view
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.google.android.material.snackbar.Snackbar
 import com.vk59.nasainfo.R
-import com.vk59.nasainfo.model.ResponseData
+import com.vk59.nasainfo.model.Item
 import com.vk59.nasainfo.presenter.MainPresenter
 
-class MainActivity : MvpAppCompatActivity(){
+class MainActivity : MvpAppCompatActivity(), IMainView{
 
     @InjectPresenter
-    var presenter: MainPresenter? = null
+    internal lateinit var presenter: MainPresenter
 
     private var refreshLayout: SwipeRefreshLayout? = null
     private var textInfo: TextView? = null
+    private var recyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
-        var textView: TextView = findViewById(R.id.textView)
+        textInfo = findViewById(R.id.textInfo)
+        refreshLayout = findViewById(R.id.layoutRefresh)
+
+        refreshLayout!!.setOnRefreshListener(onUpdateListener)
+
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView?.layoutManager = LinearLayoutManager(this)
+
     }
 
     override fun loading() {
-        TODO("Not yet implemented")
+        refreshLayout?.isRefreshing = true
     }
 
-    override fun success(data: ResponseData?) {
-        TODO("Not yet implemented")
+    override fun success(data: List<Item>) {
+//        textInfo?.text = data.toString()
+        recyclerView!!.adapter = ListAdapter(data)
+        Log.d("ACTIVITY", "Is Refreshing = false")
+
+        refreshLayout?.isRefreshing = false
     }
 
     override fun failure() {
-        TODO("Not yet implemented")
+        val snackbar: Snackbar = Snackbar.make(
+            refreshLayout!!, R.string.message_failure,
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.show()
+
+        Log.d("ACTIVITY", "Is Refreshing = false")
+
+        refreshLayout?.isRefreshing = false
+    }
+
+    private val onUpdateListener = SwipeRefreshLayout.OnRefreshListener {
+        presenter.loadData()
     }
 }

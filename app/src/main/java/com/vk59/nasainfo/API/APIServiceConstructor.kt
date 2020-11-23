@@ -16,7 +16,7 @@ class APIServiceConstructor {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl(ApiConfig.HOST_URL)
+                .baseUrl(APIConfig.HOST_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

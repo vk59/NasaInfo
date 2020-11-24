@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 class APIServiceConstructor {
     companion object {
-        fun <T> CreateService(serviceClass: Class<T>?): T {
+        fun <T> CreateService(serviceClass: Class<T>?, baseUrl: String): T {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder()
@@ -16,7 +16,7 @@ class APIServiceConstructor {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl(APIConfig.HOST_URL)
+                .baseUrl(baseUrl)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

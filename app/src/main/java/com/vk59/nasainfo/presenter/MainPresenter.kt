@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.vk59.nasainfo.API.APIConfig
 import com.vk59.nasainfo.API.APIServiceConstructor
 import com.vk59.nasainfo.API.NasaAPI
 import com.vk59.nasainfo.model.Item
@@ -25,7 +26,7 @@ class MainPresenter: MvpPresenter<IMainView>() {
     var apiService: NasaAPI? = null
 
     init {
-        apiService = APIServiceConstructor.CreateService(NasaAPI::class.java)
+        apiService = APIServiceConstructor.CreateService(NasaAPI::class.java, APIConfig.HOST_URL)
         loadData()
     }
 
@@ -68,7 +69,7 @@ class MainPresenter: MvpPresenter<IMainView>() {
         intent.putExtra(ExtraConfig.TITLE, item.data[0].title)
         intent.putExtra(ExtraConfig.DATE_CREATED, item.data[0].dateCreated)
         intent.putExtra(ExtraConfig.DESCRIPTION, item.data[0].description)
-        intent.putExtra(ExtraConfig.LINK_FOR_IMAGES, item.linkForImages)
+        intent.putExtra(ExtraConfig.LINK_FOR_IMAGES, item.links[0].link)
         context.startActivity(intent)
     }
 }

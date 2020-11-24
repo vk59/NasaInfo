@@ -31,6 +31,7 @@ class NasaAdapter(private val items: List<Item>, val onItemNasaListener: OnItemN
         if (items[position].links != null) {
         Picasso.get()
             .load(items[position].links[0].link)
+            .fit()
             .into(holder.imagePreview)
         }
     }

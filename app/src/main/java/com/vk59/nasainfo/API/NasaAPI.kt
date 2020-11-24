@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface NasaAPI {
     // perhaps Response isn't suitable
-    @GET("search?q=apollo%2011...")
+    @GET("search?q=apollo%2011&media_type=image")
     fun getApolloInfo(): Call<ResponseData?>
 }

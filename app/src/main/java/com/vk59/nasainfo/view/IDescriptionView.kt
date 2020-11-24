@@ -7,7 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 interface IDescriptionView : MvpView {
     @StateStrategyType(value = SingleStateStrategy::class)
-    fun showInfo(title: String?, description: String?, linksForImages: String?)
+    fun showInfo(title: String?, description: String?, date: String?, linksForImages: String?)
 
     @StateStrategyType(value = OneExecutionStateStrategy::class)
     fun failure()

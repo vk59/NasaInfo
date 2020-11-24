@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.vk59.nasainfo.R
 import com.vk59.nasainfo.model.Item
 import com.vk59.nasainfo.presenter.MainPresenter
+import org.w3c.dom.Text
 
 class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaListener{
 
@@ -24,6 +25,7 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
     private var refreshLayout: SwipeRefreshLayout? = null
     private var textInfo: TextView? = null
     private var recyclerView: RecyclerView? = null
+    private var textTitle: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,16 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
         
         textInfo = findViewById(R.id.textInfo)
         refreshLayout = findViewById(R.id.layoutRefresh)
+
+        textTitle = findViewById(R.id.textTitle)
+        textTitle!!.setOnClickListener {
+            val snackbar: Snackbar = Snackbar.make(
+                refreshLayout!!, R.string.info,
+                Snackbar.LENGTH_LONG
+            )
+
+            snackbar.show()
+        }
 
         refreshLayout!!.setOnRefreshListener(onUpdateListener)
 
@@ -40,7 +52,6 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
     private fun initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = LinearLayoutManager(this)
-
     }
 
     override fun loading() {
@@ -49,7 +60,6 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
 
     override fun success(data: List<Item>) {
         recyclerView!!.adapter = NasaAdapter(data, this)
-        Log.d("ACTIVITY", "Is Refreshing = false")
         textInfo?.visibility = View.GONE
         refreshLayout?.isRefreshing = false
     }

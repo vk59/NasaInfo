@@ -21,6 +21,7 @@ class DescriptionActivity : MvpAppCompatActivity(), IDescriptionView {
 
     private var textDescriptionInfo: TextView? = null
     private var textTitleInfo: TextView? = null
+    private var textDateCreated: TextView? = null
     private var imageDescription: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,16 +32,18 @@ class DescriptionActivity : MvpAppCompatActivity(), IDescriptionView {
 
         textDescriptionInfo = findViewById(R.id.textDescriptionInfo)
         textTitleInfo = findViewById(R.id.textTitleInfo)
+        textDateCreated = findViewById(R.id.textDate)
         imageDescription = findViewById(R.id.imageDescription)
 
         presenter.showData(intent, applicationContext)
 
     }
 
-    override fun showInfo(title: String?, description: String?, link: String?) {
+    override fun showInfo(title: String?, description: String?, date: String?, link: String?) {
         Log.d("DESCRIPTION ACTIVITY", "Des: $description")
-        textDescriptionInfo!!.text = description
+        textDescriptionInfo!!.text = "DESCRIPTION:\n $description"
         textTitleInfo!!.text= title
+        textDateCreated!!.text = "DATE CREATED: $date"
         Picasso.get()
             .load(link)
             .placeholder(R.drawable.nasa)
@@ -48,7 +51,6 @@ class DescriptionActivity : MvpAppCompatActivity(), IDescriptionView {
         }
 
     override fun failure() {
-
         val snackbar: Snackbar = Snackbar.make(
             constraintLayout!!, R.string.message_failure,
             Snackbar.LENGTH_LONG

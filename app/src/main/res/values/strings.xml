@@ -2,4 +2,6 @@
     <string name="app_name">NasaInfo</string>
     <string name="message_failure">Something went wrong</string>
     <string name="failure_answer">Retry</string>
+    <string name="main_title">Nasa Library</string>
+    <string name="info">Made by Ivan Kostylev @vk59, 2020</string>
 </resources>

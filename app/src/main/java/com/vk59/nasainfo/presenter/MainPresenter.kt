@@ -3,26 +3,21 @@ package com.vk59.nasainfo.presenter
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.vk59.nasainfo.API.APIConfig
 import com.vk59.nasainfo.API.APIServiceConstructor
 import com.vk59.nasainfo.API.NasaAPI
-import com.vk59.nasainfo.model.Item
 import com.vk59.nasainfo.model.ResponseData
 import com.vk59.nasainfo.view.DescriptionActivity
-import com.vk59.nasainfo.view.ExtraConfig
-import com.vk59.nasainfo.view.IMainView
+import com.vk59.nasainfo.config.ExtraConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @InjectViewState
-class MainPresenter: MvpPresenter<IMainView>() {
-
+class MainPresenter: MvpPresenter<MainView>() {
     var loadedData: ResponseData? = null
-
     var apiService: NasaAPI? = null
 
     init {
@@ -31,8 +26,6 @@ class MainPresenter: MvpPresenter<IMainView>() {
     }
 
     fun loadData() {
-        Log.d("PRESENTER", "Started data loading")
-
         viewState.loading()
         val call: Call<ResponseData?> = apiService?.getApolloInfo()!!
         call.enqueue(object : Callback<ResponseData?> {
@@ -40,11 +33,9 @@ class MainPresenter: MvpPresenter<IMainView>() {
                     call: Call<ResponseData?>,
                     response: Response<ResponseData?>
             ) {
-                Log.d("PRESENTER", "On Response")
                 if (response.body() != null) {
                     viewState.success(response.body()!!.collection.items)
                     saveResponse(response)
-                    Log.d("PRESENTER", "Response body is not null. Success")
                 }
             }
 
@@ -52,7 +43,6 @@ class MainPresenter: MvpPresenter<IMainView>() {
                     call: Call<ResponseData?>,
                     t: Throwable
             ) {
-                Log.d("PRESENTER", "On Failure $t")
                 viewState.failure()
             }
         })

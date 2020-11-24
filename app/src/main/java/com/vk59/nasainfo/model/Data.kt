@@ -23,6 +23,4 @@ data class Data(
         @SerializedName("links")
         @Expose
         val links: List<ItemLink>
-) {
-
-}
+)

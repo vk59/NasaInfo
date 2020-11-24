@@ -11,9 +11,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.vk59.nasainfo.R
 import com.vk59.nasainfo.presenter.DescriptionPresenter
+import com.vk59.nasainfo.presenter.DescriptionView
 
-class DescriptionActivity : MvpAppCompatActivity(), IDescriptionView {
-
+class DescriptionActivity : MvpAppCompatActivity(), DescriptionView {
     @InjectPresenter
     internal lateinit var presenter: DescriptionPresenter
 
@@ -28,34 +28,26 @@ class DescriptionActivity : MvpAppCompatActivity(), IDescriptionView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_description)
 
-        constraintLayout = findViewById(R.id.constraintLayout)
+        initActivity()
+        presenter.showData(intent)
+    }
 
+    private fun initActivity() {
+        constraintLayout = findViewById(R.id.constraintLayout)
         textDescriptionInfo = findViewById(R.id.textDescriptionInfo)
         textTitleInfo = findViewById(R.id.textTitleInfo)
         textDateCreated = findViewById(R.id.textDate)
         imageDescription = findViewById(R.id.imageDescription)
-
-        presenter.showData(intent, applicationContext)
-
     }
 
     override fun showInfo(title: String?, description: String?, date: String?, link: String?) {
-        Log.d("DESCRIPTION ACTIVITY", "Des: $description")
         textDescriptionInfo!!.text = "DESCRIPTION:\n $description"
-        textTitleInfo!!.text= title
+        textTitleInfo!!.text = title
         textDateCreated!!.text = "DATE CREATED: $date"
         Picasso.get()
             .load(link)
             .placeholder(R.drawable.nasa)
             .into(imageDescription)
-        }
-
-    override fun failure() {
-        val snackbar: Snackbar = Snackbar.make(
-            constraintLayout!!, R.string.message_failure,
-            Snackbar.LENGTH_LONG
-        )
-        snackbar.show()
     }
-    }
+}
 

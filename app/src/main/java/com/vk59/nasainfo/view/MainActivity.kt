@@ -1,9 +1,6 @@
 package com.vk59.nasainfo.view
 
-import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,11 +11,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.snackbar.Snackbar
 import com.vk59.nasainfo.R
 import com.vk59.nasainfo.model.Item
+import com.vk59.nasainfo.presenter.MainView
 import com.vk59.nasainfo.presenter.MainPresenter
-import org.w3c.dom.Text
+import com.vk59.nasainfo.presenter.NasaAdapter
 
-class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaListener{
-
+class MainActivity : MvpAppCompatActivity(), MainView, NasaAdapter.OnItemNasaListener {
     @InjectPresenter
     internal lateinit var presenter: MainPresenter
 
@@ -30,23 +27,25 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
+        initActivity()
+
+        initRecyclerView()
+    }
+
+    private fun initActivity() {
         textInfo = findViewById(R.id.textInfo)
         refreshLayout = findViewById(R.id.layoutRefresh)
 
         textTitle = findViewById(R.id.textTitle)
         textTitle!!.setOnClickListener {
-            val snackbar: Snackbar = Snackbar.make(
+            Snackbar.make(
                 refreshLayout!!, R.string.info,
                 Snackbar.LENGTH_LONG
-            )
-
-            snackbar.show()
+            ).show()
         }
 
         refreshLayout!!.setOnRefreshListener(onUpdateListener)
-
-        initRecyclerView()
     }
 
     private fun initRecyclerView() {
@@ -65,14 +64,11 @@ class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaLi
     }
 
     override fun failure() {
-        val snackbar: Snackbar = Snackbar.make(
+        Snackbar.make(
             refreshLayout!!, R.string.message_failure,
             Snackbar.LENGTH_LONG
-        )
+        ).show()
         textInfo?.visibility = View.GONE
-        snackbar.show()
-
-        Log.d("ACTIVITY", "Is Refreshing = false")
 
         refreshLayout?.isRefreshing = false
     }

@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:id="@+id/constraintLayout"
     tools:context=".view.DescriptionActivity"
-    android:background="@drawable/thumb_l_2612">
+    android:background="@drawable/background_picture">
 
     <TextView
         android:id="@+id/textTitleInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="@string/title_on_description"
         android:background="@drawable/style_title"
         android:layout_margin="20dp"
         android:textSize="20sp"
@@ -47,11 +47,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">\
+        app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Description"
+                android:text="@string/description"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:padding="10dp"
@@ -80,7 +80,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Date"
+                android:text="@string/date"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:padding="10dp"

@@ -1,7 +1,10 @@
 package com.vk59.nasainfo.view
 
+import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +16,7 @@ import com.vk59.nasainfo.R
 import com.vk59.nasainfo.model.Item
 import com.vk59.nasainfo.presenter.MainPresenter
 
-class MainActivity : MvpAppCompatActivity(), IMainView{
+class MainActivity : MvpAppCompatActivity(), IMainView, NasaAdapter.OnItemNasaListener{
 
     @InjectPresenter
     internal lateinit var presenter: MainPresenter
@@ -45,10 +48,9 @@ class MainActivity : MvpAppCompatActivity(), IMainView{
     }
 
     override fun success(data: List<Item>) {
-//        textInfo?.text = data.toString()
-        recyclerView!!.adapter = ListAdapter(data)
+        recyclerView!!.adapter = NasaAdapter(data, this)
         Log.d("ACTIVITY", "Is Refreshing = false")
-
+        textInfo?.visibility = View.GONE
         refreshLayout?.isRefreshing = false
     }
 
@@ -57,6 +59,7 @@ class MainActivity : MvpAppCompatActivity(), IMainView{
             refreshLayout!!, R.string.message_failure,
             Snackbar.LENGTH_LONG
         )
+        textInfo?.visibility = View.GONE
         snackbar.show()
 
         Log.d("ACTIVITY", "Is Refreshing = false")
@@ -66,5 +69,9 @@ class MainActivity : MvpAppCompatActivity(), IMainView{
 
     private val onUpdateListener = SwipeRefreshLayout.OnRefreshListener {
         presenter.loadData()
+    }
+
+    override fun onItemNasaClick(position: Int) {
+        presenter.showItem(this, position)
     }
 }
